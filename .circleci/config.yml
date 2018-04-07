@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  test:
+  lunch:
     docker:
       - image: circleci/node:9.9.0
 
@@ -22,11 +22,24 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+        
+      - run: npm start
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
 
       - run: npm run test
 
 workflows:
-   version: 2
-   test:
-    jobs:
-      - test
+   lunchtime:
+     triggers:
+       - schedule:
+           cron: "0 7 * * 1-5"
+           filters:
+             branches:
+               only:
+                 - master
+     jobs:
+       - lunch
