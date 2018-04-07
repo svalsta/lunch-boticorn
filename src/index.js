@@ -3,18 +3,19 @@ import request from 'request';
 
 import logger from './log';
 
-const menuUrl = 'http://pompier.fi/albertinkatu/lounas/';
-const weekdays = ['Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai'];
+const menuUrl = 'https://www.lounaat.info/lounas/unicafe-ylioppilasaukio/helsinki';
+const weekdays = ['Maanantaina', 'Tiistaina', 'Keskiviikkona', 'Torstaina', 'Perjantaina', 'Lauantaina'];
 
 const parsePompierMenu = (html) => {
   const dayIndex = new Date().getDay() - 1;
   if (dayIndex < 0 || dayIndex >= weekdays.length) {
-    return 'Lunch available only weekdays!';
+    return 'Suvi testing - Unicafe Lunch available only weekdays!';
   }
 
   // Parse menu text
   const jsdom = new JSDOM(html);
-  const cssSelector = '.page-content';
+  const cssSelector = '.item-container';
+  logger.info(jsdom.window.document.querySelector(cssSelector).textContent);
   const menu = jsdom.window.document.querySelector(cssSelector).textContent;
 
   // Find correct substring from menu
@@ -29,8 +30,7 @@ const parsePompierMenu = (html) => {
     // Format output
     return [`<${menuUrl}|${lines[0]}>`, ...lines.slice(1, lines.length)].join('\n');
   }
-
-  return 'Error fetching Pompier lunch information';
+  return 'Error fetching Unicafe lunch information';
 };
 
 const fetchPompierMenu = async (url = menuUrl) => new Promise((resolve) => {
@@ -40,7 +40,7 @@ const fetchPompierMenu = async (url = menuUrl) => new Promise((resolve) => {
       if (!error && statusCode === 200) {
         return resolve(parsePompierMenu(html));
       }
-      const errorMsg = `Failed fetching Pompier menu: ${statusCode}`;
+      const errorMsg = `Failed fetching Unicafe menu: ${statusCode}`;
       logger.error(errorMsg);
       return resolve(errorMsg);
     },
@@ -48,7 +48,7 @@ const fetchPompierMenu = async (url = menuUrl) => new Promise((resolve) => {
 });
 
 (async () => {
-  logger.info('Fetching Pompier menu for today...');
+  logger.info('Fetching Unicafe menu for today...');
   const text = await fetchPompierMenu();
   logger.info(`Result:\n${text}`);
   const payload = { text };
