@@ -1,7 +1,7 @@
 {
-  "name": "TODO",
+  "name": "factorylunchbot",
   "version": "1.0.0",
-  "description": "TODO",
+  "description": "Factory Aleksi Lunch Bot with allergen filtering",
   "main": "src/index.js",
   "scripts": {
     "build": "rm -rf build/ && babel ./src --out-dir build/ --copy-files --ignore *.test.js",
@@ -11,12 +11,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "TODO"
+    "url": "https://github.com/svalsta/lunch-boticorn"
   },
   "keywords": [
-    "TODO"
+    "slackbot"
   ],
-  "author": "TODO",
+  "author": "Boticorn Team",
   "license": "MIT",
   "dependencies": {
     "jsdom": "^11.7.0",

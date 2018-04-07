@@ -1,3 +1,3 @@
-# Project template for Node.js
+# Lunch bot for Factory Aleksi
 
-Simple template for basic Node app setup
+Lunch bot that filters commonly used allergens and posts only lunch option you can eat!
