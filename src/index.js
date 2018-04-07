@@ -3,8 +3,8 @@ import request from 'request';
 
 import logger from './log';
 
-const menuUrl = 'http://pompier.fi/albertinkatu/lounas/';
-const weekdays = ['Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai'];
+const menuUrl = 'http://www.ravintolafactory.com/aleksi/lounas/';
+const weekdays = ['Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai'];
 
 const parsePompierMenu = (html) => {
   const dayIndex = new Date().getDay() - 1;
@@ -14,7 +14,7 @@ const parsePompierMenu = (html) => {
 
   // Parse menu text
   const jsdom = new JSDOM(html);
-  const cssSelector = '.page-content';
+  const cssSelector = '.content-page';
   const menu = jsdom.window.document.querySelector(cssSelector).textContent;
 
   // Find correct substring from menu
@@ -48,13 +48,13 @@ const fetchPompierMenu = async (url = menuUrl) => new Promise((resolve) => {
 });
 
 (async () => {
-  logger.info('Fetching Pompier menu for today...');
-  const text = await fetchPompierMenu();
-  logger.info(`Result:\n${text}`);
-  const payload = { text };
-  request({
-    uri: process.env.SLACK_WEBHOOK,
-    method: 'POST',
-    json: payload,
-  }, () => logger.info('Posted menu to slack!'));
-})();
+    logger.info('Fetching Pompier menu for today...');
+    const text = await fetchPompierMenu();
+    logger.info(`Result:\n${text}`);
+    const payload = { text };
+    request({
+      uri: process.env.SLACK_WEBHOOK,
+      method: 'POST',
+      json: payload,
+    }, () => logger.info('Posted menu to slack!'));
+  })();
