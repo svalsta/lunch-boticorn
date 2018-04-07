@@ -6,10 +6,10 @@ import logger from './log';
 const menuUrl = 'http://www.ravintolafactory.com/aleksi/lounas/';
 const weekdays = ['Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai'];
 
-const parsePompierMenu = (html) => {
+const parseFactoryMenu = (html) => {
   const dayIndex = new Date().getDay() - 1;
   if (dayIndex < 0 || dayIndex >= weekdays.length) {
-    return 'Lunch available only weekdays!';
+    return 'Lunch available only on weekdays and Saturday!';
   }
 
   // Parse menu text
@@ -30,17 +30,17 @@ const parsePompierMenu = (html) => {
     return [`<${menuUrl}|${lines[0]}>`, ...lines.slice(1, lines.length)].join('\n');
   }
 
-  return 'Error fetching Pompier lunch information';
+  return 'Error fetching Factory lunch information';
 };
 
-const fetchPompierMenu = async (url = menuUrl) => new Promise((resolve) => {
+const fetchFactoryMenu = async (url = menuUrl) => new Promise((resolve) => {
   request(
     url,
     (error, { statusCode }, html) => {
       if (!error && statusCode === 200) {
-        return resolve(parsePompierMenu(html));
+        return resolve(parseFactoryMenu(html));
       }
-      const errorMsg = `Failed fetching Pompier menu: ${statusCode}`;
+      const errorMsg = `Failed fetching Factory menu: ${statusCode}`;
       logger.error(errorMsg);
       return resolve(errorMsg);
     },
@@ -48,8 +48,8 @@ const fetchPompierMenu = async (url = menuUrl) => new Promise((resolve) => {
 });
 
 (async () => {
-  logger.info('Fetching Pompier menu for today...');
-  const text = await fetchPompierMenu();
+  logger.info('Fetching Factory menu for today...');
+  const text = await fetchFactoryMenu();
   logger.info(`Result:\n${text}`);
   const payload = { text };
   request({
