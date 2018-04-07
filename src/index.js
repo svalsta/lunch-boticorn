@@ -6,7 +6,7 @@ import logger from './log';
 const menuUrl = 'http://www.ravintolafactory.com/aleksi/lounas/';
 const weekdays = ['Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai'];
 const allergens = ['(L+G)', '(M+G)', '(L)', '(L+VS)', '(M+G+VS+VE)'];
-const userAllergens = 'L+G';
+const userAllergens = 'L';
 
 const parseAleksiMenu = (html) => {
   const dayIndex = new Date().getDay() - 1;
