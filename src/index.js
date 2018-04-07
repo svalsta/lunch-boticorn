@@ -48,13 +48,13 @@ const fetchPompierMenu = async (url = menuUrl) => new Promise((resolve) => {
 });
 
 (async () => {
-    logger.info('Fetching Pompier menu for today...');
-    const text = await fetchPompierMenu();
-    logger.info(`Result:\n${text}`);
-    const payload = { text };
-    request({
-      uri: process.env.SLACK_WEBHOOK,
-      method: 'POST',
-      json: payload,
-    }, () => logger.info('Posted menu to slack!'));
-  })();
+  logger.info('Fetching Pompier menu for today...');
+  const text = await fetchPompierMenu();
+  logger.info(`Result:\n${text}`);
+  const payload = { text };
+  request({
+    uri: process.env.SLACK_WEBHOOK,
+    method: 'POST',
+    json: payload,
+  }, () => logger.info('Posted menu to slack!'));
+})();
