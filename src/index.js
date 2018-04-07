@@ -53,7 +53,7 @@ const fetchPompierMenu = async (url = menuUrl) => new Promise((resolve) => {
   logger.info(`Result:\n${text}`);
   const payload = { text };
   request({
-    uri: 'https://hooks.slack.com/services/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',
+    uri: process.env.SLACK_WEBHOOK,
     method: 'POST',
     json: payload,
   }, () => logger.info('Posted menu to slack!'));
